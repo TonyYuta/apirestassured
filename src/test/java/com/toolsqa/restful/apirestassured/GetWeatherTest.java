@@ -70,10 +70,17 @@ public class GetWeatherTest {
 		RequestSpecification httpRequest = RestAssured.given();
 		Response response = httpRequest.request(Method.GET, "/Hiderabad");
 		int statusCode = response.getStatusCode();
-		Assert.assertEquals(statusCode, 400, "Status code for wrong city doesn't match to expected");
+		Assert.assertEquals(statusCode/*actual value*/, 400/*expected value*/, "Status code for wrong city doesn't match to expected");
 	}
 	
-	
+	@Test(enabled = true, groups = {"weather", "get", "status", "city", "all"}, priority = 0)
+	public void getWeatherResponseStatusLine() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET, "/Hyderabad");
+		String statusLine = response.getStatusLine();
+		Assert.assertEquals(statusLine/*actual*/, "HTTP/1.1 200 OK"/*expected*/, "Status line doesn't match to expected"/*error message*/);
+	}
 	
 	
 }
