@@ -2,6 +2,12 @@ package com.toolsqa.restful.apirestassured;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -32,7 +38,7 @@ import io.restassured.specification.RequestSpecification;
  *
  */
 public class GetWeatherTest {
-	
+		
 	@Test(enabled = true, groups = {"weather", "get", "city", "all"}, priority = 0)
 	public void getWeatherDetails() {
 		
@@ -93,12 +99,51 @@ public class GetWeatherTest {
 		String statusLine = response.getStatusLine();
 		int statusCode = response.getStatusCode();
 	    assertThat(statusLine, containsString("200"));
-	    
-	    
-
-		
-		
+	    assertThat(statusLine, containsString("HTTP/1.1"));
+	    assertThat(statusLine, containsString("OK"));
+	    List<String> items = Arrays.asList(statusLine.split(" "));
+		assertThat(items, hasItem("200"));
+	    assertThat(items, hasItems("200", "OK"));
+	    assertThat(statusLine, endsWith("OK"));
 	}
 	
+	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
+	public void testGetWeatherResponseStatusOK() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET, "/Hyderabad");
+		String statusLine = response.getStatusLine();
+		List<String> items = Arrays.asList(statusLine.split(" "));
+		assertThat(items, hasItem("OK"));
+	}
+	
+	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
+	public void testGetWeatherResponseStatus200() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET, "/Hyderabad");
+		String statusLine = response.getStatusLine();
+		List<String> items = Arrays.asList(statusLine.split(" "));
+		assertThat(items, hasItem("200"));
+	}
+	
+	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
+	public void testGetWeatherResponseStatusHTTP1_1() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET, "/Hyderabad");
+		String statusLine = response.getStatusLine();
+		List<String> items = Arrays.asList(statusLine.split(" "));
+		assertThat(items, hasItem("HTTP/1.1"));
+	}
+	
+	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
+	public void testGetWeatherResponseStatusEndsOK() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+	RequestSpecification httpRequest = RestAssured.given();
+	Response response = httpRequest.request(Method.GET, "/Hyderabad");
+	String statusLine = response.getStatusLine();
+	assertThat(statusLine, endsWith("OK"));
+	}
 	
 }
