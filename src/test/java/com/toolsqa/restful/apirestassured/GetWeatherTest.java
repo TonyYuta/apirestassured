@@ -1,5 +1,8 @@
 package com.toolsqa.restful.apirestassured;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -75,11 +78,24 @@ public class GetWeatherTest {
 	
 	@Test(enabled = true, groups = {"weather", "get", "status", "city", "all"}, priority = 0)
 	public void getWeatherResponseStatusLine() {
-		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/city";
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
 		Response response = httpRequest.request(Method.GET, "/Hyderabad");
 		String statusLine = response.getStatusLine();
 		Assert.assertEquals(statusLine/*actual*/, "HTTP/1.1 200 OK"/*expected*/, "Status line doesn't match to expected"/*error message*/);
+	}
+	
+	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
+	public void testGetWeatherResponseStatus() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET, "/Hyderabad");
+		String statusLine = response.getStatusLine();
+		int statusCode = response.getStatusCode();
+	    assertThat(statusLine, containsString("200"));
+
+		
+		
 	}
 	
 	
