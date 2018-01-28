@@ -94,6 +94,7 @@ public class GetWeatherTest {
 		int statusCode = response.getStatusCode();
 	    assertThat(statusLine, containsString("200"));
 	    
+	    
 
 		
 		
