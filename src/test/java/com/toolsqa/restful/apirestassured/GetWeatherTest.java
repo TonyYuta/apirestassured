@@ -146,4 +146,44 @@ public class GetWeatherTest {
 	assertThat(statusLine, endsWith("OK"));
 	}
 	
+	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
+	public void testGetWeatherResponseHeadercontentType() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET, "/Hyderabad");
+		String contentType = response.header("Content-Type");
+		assertThat(contentType, containsString("qqq"));
+	}
+	
+	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
+	public void testGetWeatherResponseHeaderserverType() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET, "/Hyderabad");
+		String serverType = response.header("Server");
+		Assert.assertEquals(serverType, "", "Server-Type doesn't match to expected");
+	}
+	
+	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
+	public void testGetWeatherResponseHeaderAcceptLanguage() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET, "/Hyderabad");
+		String acceptLanguage = response.header("Content-Endcoding");
+		assertThat(acceptLanguage, containsString("qqqq"));
+	}
+	
+	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
+	public void testGetWeatherResponseAllHeaders() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET, "/Hyderabad");
+		String contentType = response.header("Content-Type");
+		String serverType = response.header("Server");
+		String acceptLanguage = response.header("Content-Endcoding");
+		assertThat(contentType, containsString("qqq"));
+		Assert.assertEquals(serverType, "", "Server-Type doesn't match to expected");
+		assertThat(acceptLanguage, containsString("qqqq"));		 
+	}
+	
 }
