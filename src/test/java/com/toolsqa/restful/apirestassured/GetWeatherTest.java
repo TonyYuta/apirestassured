@@ -152,7 +152,7 @@ public class GetWeatherTest{
 		RequestSpecification httpRequest = RestAssured.given();
 		Response response = httpRequest.request(Method.GET, "/Hyderabad");
 		String contentType = response.header("Content-Type");
-		assertThat(contentType, containsString("qqq"));
+		assertThat(contentType, containsString("application/json"));
 	}
 	
 	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
@@ -161,7 +161,7 @@ public class GetWeatherTest{
 		RequestSpecification httpRequest = RestAssured.given();
 		Response response = httpRequest.request(Method.GET, "/Hyderabad");
 		String serverType = response.header("Server");
-		Assert.assertEquals(serverType, "", "Server-Type doesn't match to expected");
+		Assert.assertEquals(serverType, "nginx/1.12.2", "Server-Type doesn't match to expected");
 	}
 	
 	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
@@ -169,8 +169,8 @@ public class GetWeatherTest{
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
 		Response response = httpRequest.request(Method.GET, "/Hyderabad");
-		String acceptLanguage = response.header("Content-Endcoding");
-		assertThat(acceptLanguage, containsString("qqqq"));
+		String acceptLanguage = response.header("Content-Encoding");
+		assertThat(acceptLanguage, containsString("gzip"));
 	}
 	
 	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
@@ -180,11 +180,8 @@ public class GetWeatherTest{
 		Response response = httpRequest.request(Method.GET, "/Hyderabad");
 		String contentType = response.header("Content-Type");
 		String serverType = response.header("Server");
-		String acceptLanguage = response.header("Content-Endcoding");
-		assertThat(contentType, containsString("qqq"));
-		Assert.assertEquals(serverType, "", "Server-Type doesn't match to expected");
-		assertThat(acceptLanguage, containsString("qqqq"));		 
+		String acceptLanguage = response.header("Content-Encoding");
+		assertThat((contentType + " | " + serverType + " | " + acceptLanguage), containsString("application/json | nginx/1.12.2 | gzip"));		 
 	}
-	
-	
+		
 }
