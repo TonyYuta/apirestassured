@@ -37,10 +37,10 @@ import io.restassured.specification.RequestSpecification;
  * @since       1.0
  *
  */
-public class GetWeatherTest {
+public class GetWeatherTest{
 		
 	@Test(enabled = true, groups = {"weather", "get", "city", "all"}, priority = 0)
-	public void getWeatherDetails() {
+	public void getWeatherDetails(){
 		
 		// specify the base url to the RESTFul web services
 		RestAssured.baseURI  = "http://restapi.demoqa.com/utilities/weather/city";
@@ -74,7 +74,7 @@ public class GetWeatherTest {
 	}
 	
 	@Test(enabled = true, groups = {"weather", "get", "city", "all"}, priority = 0)
-	public void getWeatherWrongCityRespStatus() {
+	public void getWeatherWrongCityRespStatus(){
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
 		Response response = httpRequest.request(Method.GET, "/Hiderabad");
@@ -185,5 +185,6 @@ public class GetWeatherTest {
 		Assert.assertEquals(serverType, "", "Server-Type doesn't match to expected");
 		assertThat(acceptLanguage, containsString("qqqq"));		 
 	}
+	
 	
 }
