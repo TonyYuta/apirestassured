@@ -6,8 +6,12 @@ package com.toolsqa.restful.apirestassured;
  */
 public class GetWeather {
     
-    private String weatherCity(String city) {
-    	   return "/" + city;
+    String correctCityName() {
+    	   return "Hyderabad";
+    }
+    
+    String incorrectCityName() {
+    		return "Hiderabad";
     }
     
 }
