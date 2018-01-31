@@ -7,5 +7,4 @@ package com.toolsqa.restful.apirestassured;
 public class GetWeather{
     public static void main(String[] args){
         System.out.println("GetWeather class");
-    }
-}
+}}
