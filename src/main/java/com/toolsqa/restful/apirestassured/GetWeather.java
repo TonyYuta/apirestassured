@@ -5,9 +5,9 @@ package com.toolsqa.restful.apirestassured;
  *
  */
 public class GetWeather {
-
-    public static void main(String[] args) {
-       final String arg = args[0];
-          System.out.println("GetWeather class. Arg: " + arg);
-          }
+    
+    private String weatherCity(String city) {
+    	   return "/" + city;
     }
+    
+}
