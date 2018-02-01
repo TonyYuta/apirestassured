@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import io.restassured.RestAssured;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
+import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
 
 
@@ -140,10 +141,10 @@ public class GetWeatherTest{
 	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
 	public void testGetWeatherResponseStatusEndsOK() {
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
-	RequestSpecification httpRequest = RestAssured.given();
-	Response response = httpRequest.request(Method.GET, "/Hyderabad");
-	String statusLine = response.getStatusLine();
-	assertThat(statusLine, endsWith("OK"));
+	    RequestSpecification httpRequest = RestAssured.given();
+	    Response response = httpRequest.request(Method.GET, "/Hyderabad");
+	    String statusLine = response.getStatusLine();
+	    assertThat(statusLine, endsWith("OK"));
 	}
 	
 	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
@@ -182,6 +183,19 @@ public class GetWeatherTest{
 		String serverType = response.header("Server");
 		String acceptLanguage = response.header("Content-Encoding");
 		assertThat((contentType + " | " + serverType + " | " + acceptLanguage), containsString("application/json | nginx/1.12.2 | gzip"));		 
+	}
+	
+	@Test(enabled = true, groups = {"weather", "city", "get", "body", "all"}, priority = 1)
+	public void testGetWeatherBody() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.get("/Hyderabad");
+		ResponseBody body = response.getBody();
+		System.out.println(body.asString());
+		assertThat(body.asString(), containsString("\"Hyderabad\""));
+//		Assert.assertEquals(body.asString().contains("\"Hyderabad\""));
+		Assert.assertEquals(body.asString().toLowerCase().contains("hyderabad") /*Expected value*/, true /*Actual Value*/, "Response body contains Hyderabad");
+
 	}
 		
 }
