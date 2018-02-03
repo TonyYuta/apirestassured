@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import io.restassured.RestAssured;
 import io.restassured.http.Method;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
@@ -193,9 +194,27 @@ public class GetWeatherTest{
 		ResponseBody body = response.getBody();
 		System.out.println(body.asString());
 		assertThat(body.asString(), containsString("\"Hyderabad\""));
-//		Assert.assertEquals(body.asString().contains("\"Hyderabad\""));
 		Assert.assertEquals(body.asString().toLowerCase().contains("hyderabad") /*Expected value*/, true /*Actual Value*/, "Response body contains Hyderabad");
-
 	}
+	
+	@Test(enabled = true, groups = {"weather", "city", "get", "body", "all"}, priority = 1)
+	public void testVerifyCityInJsonResponse() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.get("/Hyderabad");
 		
+		// get the JsonPath object instance from the Response interface
+		JsonPath jsonPathEvaluator = response.jsonPath();
+		
+		// Then simply query the JsonPath object to get a String value of the node
+		// specified by JsonPath: City (Note: You should not put $. in the Java code)
+		String city = jsonPathEvaluator.get("City");
+		
+		// print the city variable to see what we got
+		System.out.println("City received from Response: " + city);
+		
+		// Validate the response
+		Assert.assertEquals(city, "Hyderabad", "Incorrect city name received in the Response");
+	}
+
 }
