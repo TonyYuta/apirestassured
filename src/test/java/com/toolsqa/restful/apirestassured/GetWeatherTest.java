@@ -217,4 +217,70 @@ public class GetWeatherTest{
 		Assert.assertEquals(city, "Hyderabad", "Incorrect city name received in the Response");
 	}
 
+	// reads all the nodes and prints them to the Console
+	@Test(enabled = true, groups = {"weather", "city", "get", "body", "json", "all"}, priority = 1)
+	public void testDisplayAllNodesInWeatherAPI() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.get("/Hyderabad");
+		JsonPath jsonPathEvaluator = response.jsonPath();
+		System.out.println("Response City: " + jsonPathEvaluator.get("City"));
+		System.out.println("Response Humidity: " + jsonPathEvaluator.get("Humidity"));
+		System.out.println("Response Weather: " + jsonPathEvaluator.get("Weather"));
+		System.out.println("Response Wind Speed: " + jsonPathEvaluator.get("WindSpeed"));
+		System.out.println("Response Wind Direction Degree: " + jsonPathEvaluator.get("WindDirectionDegree"));
+	}
+	
+	@Test(enabled = true, groups = {"weather", "city", "get", "body", "json", "all"}, priority = 1)
+	public void testDisplayCityNodeInWeatherAPI() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.get("/Hyderabad");
+		JsonPath jsonPathEvaluator = response.jsonPath();
+		String city = jsonPathEvaluator.get("City");
+		assertThat(city, containsString("Hyderabad"));
+	}
+	
+	@Test(enabled = true, groups = {"weather", "city", "get", "body", "json", "all"}, priority = 1)
+	public void testDisplayHumidityNodeInWeatherAPI() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.get("/Hyderabad");
+		JsonPath jsonPathEvaluator = response.jsonPath();
+		String Humidity = jsonPathEvaluator.getString("Humidity");
+		Assert.assertEquals(Humidity, "87 Percent");
+	}
+	
+	@Test(enabled = true, groups = {"weather", "city", "get", "body", "json", "all"}, priority = 1)
+	public void testDisplayWeatherNodeInWeatherAPI() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.get("/Hyderabad");
+		JsonPath jsPE = response.jsonPath();
+		String weather = jsPE.getString("Weather");
+		Assert.assertEquals(weather, "");
+	}
+	
+	@Test(enabled = true, groups = {"weather", "city", "get", "body", "json", "all"}, priority = 1)
+	public void testDisplayWindSpeedNodeInWeatherAPI() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.get("/Hyderabad");
+		JsonPath pathResp = response.jsonPath();
+		String windSpeed = pathResp.getString("WindSpeed");
+		Assert.assertEquals(windSpeed, "2.1 Km per hour");
+	}
+
+	@Test(enabled = true, groups = {"weather", "city", "get", "body", "json", "all"}, priority = 1)
+	public void testDisplayWindDirectionDegreeNodeInWeatherAPI() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.get("/Hyderabad");
+		JsonPath respJson = response.jsonPath();
+		String windDirectionDegree = respJson.getString("WindDirectionDegree");
+		Assert.assertEquals(windDirectionDegree, "150 Degree");
+		
+	}
+
+	
 }
