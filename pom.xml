@@ -69,15 +69,13 @@
 	    <scope>test</scope>
 	</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-library -->
-<!-- 	<dependency>
-	    <groupId>org.hamcrest</groupId>
-	    <artifactId>hamcrest-library</artifactId>
-	    <version>1.3</version>
-	    <scope>test</scope>
+	<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+	<dependency>
+	    <groupId>com.googlecode.json-simple</groupId>
+	    <artifactId>json-simple</artifactId>
+	    <version>1.1.1</version>
 	</dependency>
-	
-	 -->
+
 	<!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-all -->
 	<dependency>
 	    <groupId>org.hamcrest</groupId>
