@@ -171,8 +171,8 @@ public class GetWeatherTest{
 		Assert.assertEquals(statusLine,"HTTP/1.1 200 OK", "mismatch in status line");
 	}
 	
-	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
-	public void testGetWeatherResponseStatus() {
+	@Test(enabled = false, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
+	public void testGetWeatherResponseStatusQQQ() {
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
 		Response response = httpRequest.request(Method.GET, "/Hyderabad");
@@ -185,6 +185,26 @@ public class GetWeatherTest{
 		assertThat(items, hasItem("200"));
 	    assertThat(items, hasItems("200", "OK"));
 	    assertThat(statusLine, endsWith("OK"));
+	}
+
+	@Test(description="testGetWeatherResponseStatus",
+			enabled=true,
+			groups = {"weather", "get", "city", "status", "all"},
+			dependsOnGroups={},
+			dependsOnMethods={},
+			priority=0)
+	public void testGetWeatherResponseStatus(){
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET, "/San Francisco");
+		String statusLine = response.getStatusLine();
+		assertThat(statusLine, containsString("200"));
+		assertThat(statusLine, containsString("HTTP/1.1"));
+		assertThat(statusLine, containsString("OK"));
+		List<String> items = Arrays.asList(statusLine.split(" "));
+		assertThat(items, hasItem("200"));
+		assertThat(items, hasItems("200","OK"));
+		assertThat(statusLine, endsWith("OK"));
 	}
 	
 	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
