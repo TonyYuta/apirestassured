@@ -41,7 +41,7 @@ import io.restassured.specification.RequestSpecification;
  */
 public class GetWeatherTest{
 		
-	@Test(enabled = true, groups = {"weather", "get", "city", "all"}, priority = 0)
+	@Test(enabled = false, groups = {"weather", "get", "city", "all"}, priority = 0)
 	public void getWeatherDetails(){
 		
 		// specify the base url to the RESTFul web services
@@ -57,12 +57,29 @@ public class GetWeatherTest{
 		Response response = httpRequest.request(Method.GET, "/Hyderabad");
 		
 		// Now let us print the body of the message to see what response
-		// we have recieved from the server
+		// we have received from the server
 		String responseBody = response.getBody().asString();
 		System.out.println("ResponseBody: " + responseBody);	
 	}
+
+	@Test(description="get Weather Details in Hyderabad",
+	enabled=true,
+	groups={"all","get","city","all"},
+	dependsOnGroups={},
+	dependsOnMethods={},
+	priority=0)
+	public void testGetWeatherDetails(){
+		String expected = "{\n" +
+				"    \"City\": \"Hyderabad\",\n" +
+				"    \"Temperature\":";
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET, "/Hyderabad");
+		String responseBody = response.getBody().asString();
+		Assert.assertTrue(responseBody.contains(expected), "mismatch in weather response");
+	}
 	
-	@Test(enabled = true, groups = {"weather", "get", "city", "bat", "all"}, priority = 0)
+	@Test(enabled = false, groups = {"weather", "get", "city", "bat", "all"}, priority = 0)
 	public void getWeatherDetailsRespStatus() {
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
@@ -74,6 +91,21 @@ public class GetWeatherTest{
 		// Assert that correct status code is returned.
 		Assert.assertEquals(statusCode /*actual value*/, 200 /*expected value*/, "Correct status code returned");
 	}
+
+	@Test(description="get Weather Details Response Status",
+			enabled=true,
+			groups={"weather","get","city","bat","all"},
+			dependsOnGroups={},
+			dependsOnMethods={},
+			priority=0)
+	public void testGetWeatherDetailsRespStatus(){
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET, "/Hyderabad");
+		int statusCode = response.getStatusCode();
+		Assert.assertEquals(statusCode /*actual value*/,200/*expected*/,"returned incorrect status code");
+	}
+
 	
 	@Test(enabled = true, groups = {"weather", "get", "city", "all"}, priority = 0)
 	public void getWeatherWrongCityRespStatus(){
@@ -83,14 +115,60 @@ public class GetWeatherTest{
 		int statusCode = response.getStatusCode();
 		Assert.assertEquals(statusCode/*actual value*/, 400/*expected value*/, "Status code for wrong city doesn't match to expected");
 	}
-	
-	@Test(enabled = true, groups = {"weather", "get", "status", "city", "all"}, priority = 0)
+
+	@Test(description="get Weather Wrong City Response Status",
+			enabled=true,
+			groups={"weather", "get", "city", "all"},
+			dependsOnGroups={},
+			dependsOnMethods={},
+			priority=0)
+	public void testGetWeatherWrongCityRespStatus(){
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET,"/Hiderabad");
+		int statusCode = response.getStatusCode();
+		Assert.assertEquals(statusCode,400/*expected*/,"mismatch in status code for wrong city");
+	}
+
+	@Test(description="Get Weather Wrong City Response Body",
+			enabled=true,
+			groups={"weather", "get", "city", "all"},
+			dependsOnGroups={},
+			dependsOnMethods={},
+			priority=0)
+	public void testGetWeatherWrongCityResponseBody(){
+		String expected = "{\n" +
+				"    \"FaultId\": \"FAULT_INTERNAL\",\n" +
+				"    \"fault\": \"An internal error occured while servicing the request\"\n" +
+				"}";
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification  httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET,"/San-Francisco");
+		String responseBody = response.getBody().asString();
+		Assert.assertEquals(responseBody,expected,"mismatch in responce for wrong city");
+	}
+
+	@Test(enabled = false, groups = {"weather", "get", "status", "city", "all"}, priority = 0)
 	public void getWeatherResponseStatusLine() {
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
 		Response response = httpRequest.request(Method.GET, "/Hyderabad");
 		String statusLine = response.getStatusLine();
 		Assert.assertEquals(statusLine/*actual*/, "HTTP/1.1 200 OK"/*expected*/, "Status line doesn't match to expected"/*error message*/);
+	}
+
+	@Test(description="get Weather Response Status Line",
+			enabled=true,
+			groups = {"weather", "get", "status", "city", "all"},
+			dependsOnGroups={},
+			dependsOnMethods={},
+			priority=0)
+	public void testGetWeatherResponseStatusLine(){
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET,"/San Francisco");
+		String statusLine = response.getStatusLine();
+		Assert.assertEquals(statusLine,"HTTP/1.1 200 OK", "mismatch in status line");
 	}
 	
 	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
