@@ -207,8 +207,8 @@ public class GetWeatherTest{
 		assertThat(statusLine, endsWith("OK"));
 	}
 	
-	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
-	public void testGetWeatherResponseStatusOK() {
+	@Test(enabled = false, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
+	public void testGetWeatherResponseStatusOKQQQ() {
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
 		Response response = httpRequest.request(Method.GET, "/Hyderabad");
@@ -216,6 +216,23 @@ public class GetWeatherTest{
 		List<String> items = Arrays.asList(statusLine.split(" "));
 		assertThat(items, hasItem("OK"));
 	}
+
+	@Test(description="Get Weather Response Status OK",
+			enabled=true,
+			groups = {"weather", "get", "city", "status", "all"},
+			dependsOnGroups={},
+			dependsOnMethods={},
+			priority=0
+	)
+	public void testGetWeatherResponseStatusOK(){
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.request(Method.GET, "/San Francisco");
+		String statusLine = response.getStatusLine();
+		List<String> items = Arrays.asList(statusLine.split(" "));
+		assertThat(items, hasItem("200"));
+	}
+
 	
 	@Test(enabled = true, groups = {"weather", "get", "city", "status", "all"}, priority = 0)
 	public void testGetWeatherResponseStatus200() {
