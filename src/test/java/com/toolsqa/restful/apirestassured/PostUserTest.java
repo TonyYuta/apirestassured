@@ -44,12 +44,14 @@ public class PostUserTest {
 	public void testCreateUser01() {
 		RestAssured.baseURI = "http://restapi.demoqa.com/customer";
 		RequestSpecification request = RestAssured.given();
+
 		JSONObject requestParams = new JSONObject();
 		requestParams.put("FirstName", "cj19vplm"+Helper.rndNum());
 		requestParams.put("LastName", "cj19vplm"+Helper.rndNum());
 		requestParams.put("UserName",  "cj19vplm"+Helper.rndNum());
 		requestParams.put("Password", "cj19vplm"+Helper.rndNum());
-		requestParams.put("Email", "cj19vplm"+Helper.rndNum()+"e@gmail.com");
+		requestParams.put("Email", "cj19vplm"+Helper.rndNum()+"@gmail.com");
+
 		//JSONObject.toJSONString(requestParams);
 		// Add a header stating the Request body is a JSON
 		request.header("Content-Type", "application/json");
@@ -57,6 +59,7 @@ public class PostUserTest {
 		request.body(requestParams.toJSONString());
 		// Post the request and check the response
 		Response response = request.post("/register");
+
 		//RequestSpecification.body(JsonString);
 		int statusCode = response.getStatusCode();
 		Assert.assertEquals(statusCode, 201);
@@ -70,14 +73,13 @@ public class PostUserTest {
 		RequestSpecification request = RestAssured.given();
 
 		JSONObject requestParams = new JSONObject();
-
 		requestParams.put("FirstName", "cj19vplm"+Helper.rndNum());
 		requestParams.put("LastName", "cj19vplm"+Helper.rndNum());
 		requestParams.put("UserName",  "cj19vplm"+Helper.rndNum());
 		requestParams.put("Password", "cj19vplm"+Helper.rndNum());
-		requestParams.put("Email", "cj19vplm"+Helper.rndNum()+"e@gmail.com");
-
+		requestParams.put("Email", "cj19vplm"+Helper.rndNum()+"@gmail.com");
 		request.body(requestParams.toJSONString());
+
 		Response response = request.post("/register");
 
 		int statusCode = response.getStatusCode();
@@ -96,11 +98,11 @@ public class PostUserTest {
 		requestParams.put("LastName", "cj19vplm"+Helper.rndNum());
 		requestParams.put("UserName",  "cj19vplm"+Helper.rndNum());
 		requestParams.put("Password", "cj19vplm"+Helper.rndNum());
-		requestParams.put("Email", "cj19vplm"+Helper.rndNum()+"e@gmail.com");
-		
+		requestParams.put("Email", "cj19vplm"+Helper.rndNum()+"@gmail.com");
 		request.body(requestParams.toJSONString());
+
 		Response response = request.post("/register");
-		
+
 		int statusCode = response.getStatusCode();
 		Assert.assertEquals(statusCode,  201);
 		String successCode = response.jsonPath().getString("SuccessCode");
@@ -117,11 +119,11 @@ public class PostUserTest {
 		requestParams.put("LastName", "cj19vplm"+Helper.rndNum());
 		requestParams.put("UserName",  "cj19vplm"+Helper.rndNum());
 		requestParams.put("Password", "cj19vplm"+Helper.rndNum());
-		requestParams.put("Email", "cj19vplm"+Helper.rndNum()+"e@gmail.com");
-		
+		requestParams.put("Email", "cj19vplm"+Helper.rndNum()+"@gmail.com");
 		request.body(requestParams.toJSONString());
+
 		Response response = request.put("/register");
-		
+
 		int statusCode = response.getStatusCode();
 		System.out.println("statusCode: " + statusCode);
 		System.out.println("Response body: " + response.body().asString());
@@ -132,14 +134,17 @@ public class PostUserTest {
 	public void test08RegistrationSuccessful(){
 		RestAssured.baseURI ="http://restapi.demoqa.com/customer";
 		RequestSpecification request = RestAssured.given();
+
 		JSONObject requestParams = new JSONObject();
 		requestParams.put("FirstName", "cj19vplm"+Helper.rndNum());
 		requestParams.put("LastName", "cj19vplm"+Helper.rndNum());
 		requestParams.put("UserName",  "cj19vplm"+Helper.rndNum());
 		requestParams.put("Password", "cj19vplm"+Helper.rndNum());
-		requestParams.put("Email", "cj19vplm"+Helper.rndNum()+"e@gmail.com");
+		requestParams.put("Email", "cj19vplm"+Helper.rndNum()+"@gmail.com");
 		request.body(requestParams.toJSONString());
+
 		Response response = request.post("/register");
+
 		int statusCode = response.getStatusCode();
 		Assert.assertEquals(statusCode, 201);
 		String successCode = response.jsonPath().get("SuccessCode");
