@@ -1,5 +1,6 @@
 package com.toolsqa.restful.apirestassured;
 
+import static com.sun.tools.classfile.AccessFlags.Kind.Method;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
@@ -41,6 +42,7 @@ import io.restassured.specification.RequestSpecification;
  */
 public class GetWeatherTest{
 
+
 	@Test(description="get Weather Details in Hyderabad",
 		enabled=true,
 		groups={"all","get","city","all"},
@@ -49,7 +51,7 @@ public class GetWeatherTest{
 		priority=0)
 	public void testGetWeatherDetails(){
 		String expected = "{\n" +
-				"    \"City\": \"Hyderabad\",\n" +
+				"    \"City\": \"San Francisco\",\n" +
 				"    \"Temperature\":";
 		// specify the base url to the RESTFul web services
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
@@ -59,7 +61,7 @@ public class GetWeatherTest{
 		RequestSpecification httpRequest = RestAssured.given();
 		// make a request to the server by specifying the method Type and the method URL.
 		// This will return the Response from the server. Store the response in a variable.
-		Response response = httpRequest.request(Method.GET, "/Hyderabad");
+		Response response = httpRequest.get("/San Francisco");
 		// Now let us print the body of the message to see what response
 		// we have received from the server
 		String responseBody = response.getBody().asString();
@@ -75,7 +77,7 @@ public class GetWeatherTest{
 	public void testGetWeatherDetailsRespStatus(){
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
-		Response response = httpRequest.request(Method.GET, "/Hyderabad");
+		Response response = httpRequest.get("/San Francisco");
 		int statusCode = response.getStatusCode();
 		Assert.assertEquals(statusCode /*actual value*/,200/*expected*/,"returned incorrect status code");
 	}
@@ -89,7 +91,7 @@ public class GetWeatherTest{
 	public void testGetWeatherWrongCityRespStatus(){
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
-		Response response = httpRequest.request(Method.GET,"/Hiderabad");
+		Response response = httpRequest.get("/San-Francisco");
 		int statusCode = response.getStatusCode();
 		Assert.assertEquals(statusCode,400/*expected*/,"mismatch in status code for wrong city");
 	}
@@ -107,7 +109,7 @@ public class GetWeatherTest{
 				"}";
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification  httpRequest = RestAssured.given();
-		Response response = httpRequest.request(Method.GET,"/San-Francisco");
+		Response response = httpRequest.get("/San-Francisco");
 		String responseBody = response.getBody().asString();
 		Assert.assertEquals(responseBody,expected,"mismatch in responce for wrong city");
 	}
@@ -121,7 +123,7 @@ public class GetWeatherTest{
 	public void testGetWeatherResponseStatusLine(){
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
-		Response response = httpRequest.request(Method.GET,"/San Francisco");
+		Response response = httpRequest.get("/San Francisco");
 		String statusLine = response.getStatusLine();
 		Assert.assertEquals(statusLine,"HTTP/1.1 200 OK", "mismatch in status line");
 	}
@@ -135,7 +137,7 @@ public class GetWeatherTest{
 	public void testGetWeatherResponseStatus(){
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
-		Response response = httpRequest.request(Method.GET, "/San Francisco");
+		Response response = httpRequest.get("/San Francisco");
 		String statusLine = response.getStatusLine();
 		assertThat(statusLine, containsString("200"));
 		assertThat(statusLine, containsString("HTTP/1.1"));
@@ -156,7 +158,7 @@ public class GetWeatherTest{
 	public void testGetWeatherResponseStatusOK(){
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
-		Response response = httpRequest.request(Method.GET, "/San Francisco");
+		Response response = httpRequest.get("/San Francisco");
 		String statusLine = response.getStatusLine();
 		List<String> items = Arrays.asList(statusLine.split(" "));
 		assertThat(items, hasItem("200"));
@@ -171,7 +173,7 @@ public class GetWeatherTest{
 	public void testGetWeatherResponseStatus200(){
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
-		Response response = httpRequest.request(Method.GET, "/San Francisco");
+		Response response = httpRequest.get("/San Francisco");
 		String statusLine = response.getStatusLine();
 		List<String> items = Arrays.asList(statusLine.split(" "));
 		assertThat(items, hasItem("OK"));
@@ -186,7 +188,7 @@ public class GetWeatherTest{
 	public void testGetWeatherResponseStatusHTTP1_1() {
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
-		Response response = httpRequest.request(Method.GET,"/San Francisco");
+		Response response = httpRequest.get("/San Francisco");
 		String statusLine = response.getStatusLine();
 		List<String> items = Arrays.asList(statusLine.split(" "));
 		assertThat(items, hasItem("HTTP/1.1"));
@@ -202,7 +204,7 @@ public class GetWeatherTest{
 	public void testGetWeatherResponseStatusEndsOK(){
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
-		Response response = httpRequest.request(Method.GET, "/San Francisco");
+		Response response = httpRequest.get("/San Francisco");
 		String statusLine = response.getStatusLine();
 		assertThat(statusLine, endsWith("OK"));
 	}
@@ -216,7 +218,7 @@ public class GetWeatherTest{
 	public void testGetWeatherResponseHeadercontentType(){
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
-		Response response = httpRequest.request(Method.GET, "/San Francisco");
+		Response response = httpRequest.get("/San Francisco");
 		String contentType = response.header("Content-Type");
 		assertThat(contentType, containsString("application/json"));
 	}
@@ -230,7 +232,7 @@ public class GetWeatherTest{
 	public void testGetWeatherResponseHeaderserverType(){
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
-		Response response = httpRequest.request(Method.GET, "/San Francisco");
+		Response response = httpRequest.get("/San Francisco");
 		String serverType = response.header("Server");
 		Assert.assertEquals(serverType, "nginx", "Server-Type doesn't match to expected");
 	}
@@ -244,7 +246,7 @@ public class GetWeatherTest{
 	public void testGetWeatherResponseHeaderAcceptLanguage(){
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
-		Response response = httpRequest.request(Method.GET, "/San Francisco");
+		Response response = httpRequest.get("/San Francisco");
 		String acceptLanguage = response.header("Content-Encoding");
 		assertThat(acceptLanguage, containsString("gzip"));
 	}
@@ -258,7 +260,7 @@ public class GetWeatherTest{
 	public void testGetWeatherResponseAllHeaders(){
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
-		Response response = httpRequest.request(Method.GET, "/San Francisco");
+		Response response = httpRequest.get("/San Francisco");
 		String contentType = response.header("Content-Type");
 		String serverType = response.header("Server");
 		String acceptLanguage = response.header("Content-Encoding");
@@ -275,7 +277,7 @@ public class GetWeatherTest{
 	public void testGetWeatherBody(){
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = RestAssured.given();
-		Response response = httpRequest.request(Method.GET,"/San Francisco");
+		Response response = httpRequest.get("/San Francisco");
 		ResponseBody body = response.getBody();
 		System.out.println(body.asString());
 		assertThat(body.asString(),containsString("San Francisco"));
