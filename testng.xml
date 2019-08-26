@@ -4,7 +4,8 @@
   <test thread-count="5" name="getTest">
     <classes>
       <class name="com.toolsqa.restful.apirestassured.GetWeatherTest"/>
-      <class name="com.toolsqa.restful.apirestassured.SerialDeserialTest"/>      
+      <class name="com.toolsqa.restful.apirestassured.SerialDeserialTest"/>
+      <class name="com.toolsqa.restful.apirestassured.PostUserTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

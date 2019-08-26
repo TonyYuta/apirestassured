@@ -1,6 +1,5 @@
 package com.toolsqa.restful.apirestassured;
 
-import static com.sun.tools.classfile.AccessFlags.Kind.Method;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
@@ -14,7 +13,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import io.restassured.RestAssured;
-import io.restassured.http.Method;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
@@ -41,7 +39,6 @@ import io.restassured.specification.RequestSpecification;
  *
  */
 public class GetWeatherTest{
-
 
 	@Test(description="get Weather Details in Hyderabad",
 		enabled=true,

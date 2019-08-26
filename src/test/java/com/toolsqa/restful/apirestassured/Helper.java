@@ -8,6 +8,7 @@
 
 package com.toolsqa.restful.apirestassured;
 
+import java.util.Random;
 import java.util.UUID;
 
 import org.testng.annotations.Test;
@@ -30,6 +31,17 @@ public class Helper {
         String uuid = UUID.randomUUID().toString();
         return uuid;
     }
+
+	public static int rndNum(){
+		Random rand = new Random();
+		int n = rand.nextInt(1000);
+		return n;
+	}
+
+	@Test
+	public void testRndNum(){
+		System.out.println(Helper.rndNum());
+	}
 	
 	@Test(enabled = true, groups = {"string", "memory", "unmutuble", "speed", "all"}, priority = 1)
 	public void updatingJumboUnmutableString() {
@@ -65,4 +77,7 @@ public class Helper {
 		long stopTime = System.currentTimeMillis();
 		System.out.println("Execution time: " + (stopTime - startTime) + " ms");
 	}
+
+
+
 }
