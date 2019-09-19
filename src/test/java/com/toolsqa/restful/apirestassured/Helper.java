@@ -78,6 +78,25 @@ public class Helper {
 		System.out.println("Execution time: " + (stopTime - startTime) + " ms");
 	}
 
+	public static String playLoad(){
+		String playLoad = "{\n\"FirstName\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
+				"\"LastName\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
+				"\"UserName\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
+				"\"Password\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
+				"\"Email\":\"aabbccdd"+Helper.rndNum()+"@gmail.com\"\n}";
+		//System.out.println("playLoad:\n"+playLoad);
+		return playLoad;
+	}
+
+	public void testPlayLoad(){
+		String playLoad = "{\n\"FirstName\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
+				"\"LastName\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
+				"\"UserName\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
+				"\"Password\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
+				"\"Email\":\"aabbccdd"+Helper.rndNum()+"@gmail.com\"\n}";
+		System.out.println("playLoad:\n"+playLoad);
+	}
+
 
 
 }
