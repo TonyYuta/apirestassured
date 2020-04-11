@@ -40,7 +40,7 @@ public class GetWeatherTest {
 
 	@Test(description = "get Weather Details in Hyderabad",
 			enabled = true,
-			groups = {"all", "get", "city", "all"},
+			groups = {"all", "get", "city"},
 			dependsOnGroups = {},
 			dependsOnMethods = {},
 			priority = 0)

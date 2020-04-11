@@ -4,6 +4,7 @@ Api testing framework. Using Rest-Assured
 CLA Instructions
 Example with groups "all" that generates a report:
 mvn clean test site -Dgroups=all
+mvn test -Dgroups=city
 
 Report (surefire) includes:
 Surefire Report
