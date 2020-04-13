@@ -8,11 +8,7 @@
 
 package com.toolsqa.restful.apirestassured;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * MarineSoftware //ADDD (description of class)
@@ -32,16 +28,14 @@ import java.util.Set;
  */
 public class MarineSoftware {
 
-
-
 // write a method that takes a list of words and prints the unique words
 
 public void printUniqueWords(List<String> words) {
 
   // enter code here
   Set<String> wordsWithoutDupl = new HashSet<>(words);
-System.out.println("All words: " + words); // All words: [a, c, b, c, d, b, e]
-System.out.println("Words Without Dupl: " + wordsWithoutDupl); // without dupl: [a, b, c, d, e]
+  System.out.println("All words: " + words); // All words: [a, c, b, c, d, b, e]
+	System.out.println("Words Without Dupl: " + wordsWithoutDupl); // without dupl: [a, b, c, d, e]
 
   StringBuilder result = new StringBuilder();
   
@@ -50,20 +44,20 @@ System.out.println("Words Without Dupl: " + wordsWithoutDupl); // without dupl: 
       result.append(word + " : " + Collections.frequency(words, word) + "\n");
     }
   }
-  System.out.println(result.toString()); // b : 2
+ // System.out.println(result.toString()); // b : 2
   										// c : 2
 }
 
-public Set<String> uniqueWords01(List<String> words) {
-//System.out.println("All words: " + words);
-	Set<String> wordsWithoutDupl = new HashSet<>(words);
-//System.out.println("Without dupl: " + wordsWithoutDupl);
-	Set<String> uniqueWords = new HashSet();
-	for(String word : wordsWithoutDupl) {
-		if(Collections.frequency(words, word) == 1) {
+public Set<String> uniqueWords04(List words) {
+	Set<String> wordsSet = new HashSet<>(words);
+	Set<String> uniqueWords = new HashSet<>();
+	for(String word : wordsSet) {
+		if(Collections.frequency(words, word) == 1)
 			uniqueWords.add(word);
-		}
 	}
+	//System.out.println("words       " + words);
+	//System.out.println("wordsSet    " + wordsSet);
+	//System.out.println("uniqueWords " + uniqueWords);
 	return uniqueWords;
 }
 
@@ -84,8 +78,6 @@ public Set<String> uniqueWords02(List<String> words) {
 	}
 	return unique;
 }
-
-
 
 
 }

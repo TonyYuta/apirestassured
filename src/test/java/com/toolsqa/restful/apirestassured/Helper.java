@@ -78,7 +78,7 @@ public class Helper {
 		System.out.println("Execution time: " + (stopTime - startTime) + " ms");
 	}
 
-	public static String playLoad(){
+	public static String payLoad(){
 		String playLoad = "{\n\"FirstName\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
 				"\"LastName\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
 				"\"UserName\":\"aabbccdd"+Helper.rndNum()+"\",\n" +

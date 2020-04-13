@@ -79,4 +79,22 @@ public class MarineSoftwareTest {
 		//System.out.println("Unique words: " + ms.uniqueWords(ls));
 		Assert.assertEquals(expected, ms.uniqueWords02(ls).toString(), "unique words don't match to expected");
 	}
+
+	@Test(enabled = true, groups = {"marine", "all", "list"}, priority = 3)
+	public void test004PrintUniqueWords() {
+		ms = new MarineSoftware();
+		ls = new ArrayList();
+		ls.add("a");
+		ls.add("c");
+		ls.add("b");
+		ls.add("c");
+		ls.add("d");
+		ls.add("b");
+		ls.add("e");
+		String expected = "[a, d, e]";
+
+		//System.out.println("Unique words: " + ms.uniqueWords(ls));
+		Assert.assertEquals(expected, ms.uniqueWords04(ls).toString(), "unique words don't match to expected");
+	}
+
 }

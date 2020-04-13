@@ -203,8 +203,8 @@ public class PostUserTest {
 			dependsOnGroups = {},
 			dependsOnMethods = {},
 			priority = 1)
-	public void testDisplayWindDirectionDegreeNodeInWeatherAPI02() {
-		String playLoad = "{\"FirstName\":\"cj143412\",\n" +
+	public void testCreateUser02() {
+		String payLoad = "{\"FirstName\":\"cj143412\",\n" +
 				"\"LastName\":\"cj19vpl23\",\n" +
 				"\"UserName\":\"cj19vp345\",\n" +
 				"\"Password\":\"cj1lm4576\",\n" +
@@ -214,7 +214,7 @@ public class PostUserTest {
 		Response response = given()
 				.contentType("application/json")
 				.accept("application/json")
-				.body(playLoad)
+				.body(payLoad)
 				.when()
 				.post("/register")
 				.then()
@@ -233,7 +233,7 @@ public class PostUserTest {
 			dependsOnMethods = {},
 			priority = 1)
 	public void testCreateNonUniqueUser03() {
-		String playLoad = "{\"FirstName\":\"cj143412\",\n" +
+		String payLoad = "{\"FirstName\":\"cj143412\",\n" +
 				"\"LastName\":\"cj19vpl23\",\n" +
 				"\"UserName\":\"cj19vp345\",\n" +
 				"\"Password\":\"cj1lm4576\",\n" +
@@ -243,7 +243,7 @@ public class PostUserTest {
 		given()
 				.contentType("application/json")
 				.accept("application/json")
-				.body(playLoad)
+				.body(payLoad)
 				.when()
 				.post("/register")
 				.then()
@@ -252,25 +252,45 @@ public class PostUserTest {
 				.body("FaultId",containsString("User already exists"));
 	}
 
+	@Test
+	public void testUserExists() {
+		String payload = "{\"FirstName\":\"cj143412\",\n" +
+				"\"LastName\":\"cj19vpl23\",\n" +
+				"\"UserName\":\"cj19vp345\",\n" +
+				"\"Password\":\"cj1lm4576\",\n" +
+				"\"Email\":\"cj1lm7676@gmail.com\"}";
+		RestAssured.baseURI = "http://restapi.demoqa.com/customer";
+		given()
+				.contentType("application/json")
+				.accept("application/json")
+				.body(payload)
+				.when()
+				.post("/register")
+				.then()
+				.assertThat()
+				.statusCode(200)
+				.body("FaultId", containsString("User already exists"));
+	}
+
 	@Test(description="create unique user",
 	enabled=true,
-	groups={"all","post","body","playLoad"},
+	groups={"all","post","body","payLoad"},
 			dependsOnGroups={},
 			dependsOnMethods={},
 			priority=1
 	)
 	public void testCreateNonUniqueUser04(){
-		String playLoad = "{\n\"FirstName\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
+		String payLoad = "{\n\"FirstName\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
 				"\"LastName\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
 				"\"UserName\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
 				"\"Password\":\"aabbccdd"+Helper.rndNum()+"\",\n" +
 				"\"Email\":\"aabbccdd"+Helper.rndNum()+"@gmail.com\"\n}";
-		//System.out.println("playLoad: \n"+playLoad);
+		//System.out.println("payLoad: \n"+payLoad);
 		RestAssured.baseURI = "http://restapi.demoqa.com/customer";
 		given()
 				.contentType("application/json")
 				.accept("application/json")
-				.body(playLoad)
+				.body(payLoad)
 				.when()
 				.post("/register")
 				.then()
@@ -280,7 +300,7 @@ public class PostUserTest {
 						, "SuccessCode",containsString("OPERATION_SUCCESS"));
 	}
 
-	@Test(description="create user using playLoad from Helper",
+	@Test(description="create user using payLoad from Helper",
 	enabled=true,
 	groups={"all","helper","post","json","body"},
 	dependsOnGroups={},
@@ -291,7 +311,7 @@ public class PostUserTest {
 		given()
 				.contentType("application/json")
 				.accept("application/json")
-				.body(Helper.playLoad())
+				.body(Helper.payLoad())
 				.when()
 				.post("/register")
 				.then()
@@ -315,7 +335,7 @@ public class PostUserTest {
 				.contentType("application/json")
 				.accept("application/Json")
 				//.header("Authorization","Basic VG9vbHNRQTpUZXN0UGFzc3dvcmQ=")
-				.body(Helper.playLoad())
+				.body(Helper.payLoad())
 				.when()
 				.post("/register")
 				.then()
@@ -323,6 +343,45 @@ public class PostUserTest {
 				.statusCode(201)
 				.body("Message",containsString("Operation completed successfully")
 						,"SuccessCode", containsString("OPERATION_SUCCESS"));
+	}
+
+	@Test(description = "Create user, Basic Authentication",
+			enabled = true,
+			groups = {"all", "Basic", "post", "user"},
+			dependsOnGroups = {},
+			dependsOnMethods = {},
+			priority = 3)
+	public void testCreateDummyUser() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/customer";
+		given().auth()
+				.basic("ToolsQA", "ThePassword")
+				.contentType("application/json")
+				.accept("application/json")
+				.body(Helper.payLoad())
+				.when()
+				.post("/register")
+				.then()
+				.assertThat()
+				.statusCode(201)
+				.body("Message", containsString("Operation completed successfully")
+				,"SuccessCode", containsString("OPERATION_SUCCESS"));
+	}
+
+	@Test
+	public void testBasicAuth03() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/customer";
+		given().auth()
+				.basic("ToolsQA", "ThePassword")
+				.contentType("application/json")
+				.accept("application/json")
+				.body(Helper.payLoad())
+				.when()
+				.post("/register")
+				.then()
+				.assertThat()
+				.statusCode(201)
+				.body("Message", containsString("Operation completed successfully")
+				,"SuccessCode", containsString("OPERATION_SUCCESS"));
 	}
 
 	/*

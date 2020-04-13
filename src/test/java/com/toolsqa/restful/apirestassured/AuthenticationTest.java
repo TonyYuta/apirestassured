@@ -38,4 +38,5 @@ public class AuthenticationTest {
 		System.out.println("Status code: " + response.getStatusCode());
 		System.out.println("Status message " + response.body().asString());
 	}
+
 }

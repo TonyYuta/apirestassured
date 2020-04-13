@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.*;
 import java.util.Arrays;
 import java.util.List;
 
+import net.sourceforge.pmd.properties.IntegerProperty;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -63,6 +64,19 @@ public class GetWeatherTest {
 		Assert.assertTrue(responseBody.contains(expected), "mismatch in weather response");
 	}
 
+	@Test
+	public void testWeatherSF() {
+		String expected = "    \"City\": \"San Francisco\",\n" +
+				"    \"Temperature\"";
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = given();
+		Response response = httpRequest.get("/San Francisco");
+		//System.out.println("response: " + response);
+		String responseBody = response.getBody().asString();
+		//System.out.println("responseBody: " + responseBody);
+		Assert.assertTrue(responseBody.contains(expected), "Mismatch in SF weather response");
+	}
+
 	@Test(description = "get Weather Details Response Status",
 			enabled = true,
 			groups = {"weather", "get", "city", "bat", "all"},
@@ -77,6 +91,16 @@ public class GetWeatherTest {
 		Assert.assertEquals(statusCode /*actual value*/, 200/*expected*/, "returned incorrect status code");
 	}
 
+	@Test
+	public void testGetWeatherDetailsFromResponse() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = given();
+		Response response = httpRequest.get("/San Francisco");
+		int statusCode = response.getStatusCode();
+		//System.out.println("statusCode: " + statusCode);
+		Assert.assertEquals(statusCode, 200, "Mismatch in status code for SF weather");
+	}
+
 	@Test(description = "get Weather Wrong City Response Status",
 			enabled = true,
 			groups = {"weather", "get", "city", "all"},
@@ -89,6 +113,21 @@ public class GetWeatherTest {
 		Response response = httpRequest.get("/San-Francisco");
 		int statusCode = response.getStatusCode();
 		Assert.assertEquals(statusCode, 400/*expected*/, "mismatch in status code for wrong city");
+	}
+
+	@Test(enabled = true,
+			description = "get Weather Wrong City Response Status",
+			groups = {"weather", "get", "city", "all"},
+			dependsOnGroups = {},
+			dependsOnMethods = {},
+			priority = 0
+	)
+	public void test400forWrongCity() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.get("/SanFrancisco");
+		int responseStatusCode = response.getStatusCode();
+		Assert.assertEquals(responseStatusCode, 400, "Mismatch in status code for wrong city");
 	}
 
 	@Test(description = "Get Weather Wrong City Response Body",
@@ -123,7 +162,21 @@ public class GetWeatherTest {
 		Assert.assertEquals(statusLine, "HTTP/1.1 200 OK", "mismatch in status line");
 	}
 
-	@Test(description = "testGetWeatherResponseStatus",
+	@Test(description = "get Weather Response Status Line",
+	enabled = true,
+	groups = {"all", "get", "status", "city", "weather"},
+	dependsOnGroups = {},
+	dependsOnMethods = {},
+	priority = 0)
+	public void testWeatherRespStatLine() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = given();
+		Response response = httpRequest.get("/San Francisco");
+		String statusLine = response.getStatusLine();
+		Assert.assertEquals(statusLine, "HTTP/1.1 200 OK", "Mismatch in status line");
+	}
+
+	@Test(description = "Get Weather Response Status - hamcrest Assert",
 			enabled = true,
 			groups = {"weather", "get", "city", "status", "all"},
 			dependsOnGroups = {},
@@ -150,6 +203,16 @@ public class GetWeatherTest {
 			dependsOnMethods = {},
 			priority = 0
 	)
+	public void testGetWeatherResponseStatusHamcrest() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = given();
+		Response response = httpRequest.get("/San Francisco");
+		String statusLine = response.getStatusLine();
+		Assert.assertTrue(statusLine.contains("HTTP/1.1"));
+		Assert.assertTrue(statusLine.contains("200"), "Mismatch in status code");
+		Assert.assertTrue(statusLine.contains("OK"), "OK was expected");
+	}
+
 	public void testGetWeatherResponseStatusOK() {
 		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
 		RequestSpecification httpRequest = given();
@@ -204,7 +267,7 @@ public class GetWeatherTest {
 		assertThat(statusLine, endsWith("OK"));
 	}
 
-	@Test(description = "Get Weather Response Headercontent Type",
+	@Test(description = "Get Weather Response Header Content-Type",
 			enabled = true,
 			groups = {"weather", "get", "city", "status", "all"},
 			dependsOnGroups = {},
@@ -216,6 +279,14 @@ public class GetWeatherTest {
 		Response response = httpRequest.get("/San Francisco");
 		String contentType = response.header("Content-Type");
 		assertThat(contentType, containsString("application/json"));
+	}
+
+	@Test
+	public void testContentType() {
+	RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+	RequestSpecification req = given();
+	Response resp = req.get("/San Francisco");
+	Assert.assertTrue(resp.header("Content-Type").contains("application/json"), "Mismatch in Content-Type");
 	}
 
 	@Test(description = "Get Weather Response Header server Type",
@@ -232,6 +303,14 @@ public class GetWeatherTest {
 		Assert.assertEquals(serverType, "nginx", "Server-Type doesn't match to expected");
 	}
 
+	@Test
+	public void testServerResponse() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpReq = given();
+		Response resp = httpReq.get("/San Francisco");
+		Assert.assertEquals(resp.header("Server"), "nginx", "Mismatch in server response");
+	}
+
 	@Test(description = "Get Weather Response Header Accept Language",
 			enabled = true,
 			groups = {"weather", "get", "city", "status", "all"},
@@ -244,6 +323,14 @@ public class GetWeatherTest {
 		Response response = httpRequest.get("/San Francisco");
 		String acceptLanguage = response.header("Content-Encoding");
 		assertThat(acceptLanguage, containsString("gzip"));
+	}
+
+	@Test
+	public void testContentEncoding() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = given();
+		Response response = httpRequest.get("/San Frasncisco");
+		Assert.assertEquals(response.header("Content-Encoding"), "gzip", "Mismatch in Content-Encoding");
 	}
 
 	@Test(description = "Get Weather Response All Headers",
@@ -277,6 +364,19 @@ public class GetWeatherTest {
 		System.out.println(body.asString());
 		assertThat(body.asString(), containsString("San Francisco"));
 		Assert.assertTrue(body.asString().contains("Degree celsius"), "mismatch in contains body");
+	}
+
+	@Test
+	public void testBody() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.get("/San Francisco");
+		ResponseBody body = response.getBody();
+		//System.out.println("body: " + body.asString());
+		//System.out.println("Humidity value: " + body.jsonPath().get("Humidity").toString().substring(0, 2));
+		int humInt = Integer.parseInt(body.jsonPath().get("Humidity").toString().substring(0,2));
+		Assert.assertEquals(body.jsonPath().get("City"), "San Francisco", "Mismatch in city from body");
+		Assert.assertTrue(humInt > 10 && humInt < 120, "Mismatch in Humidity value");
 	}
 
 	@Test(description = "Verify City In Json Response",
@@ -409,7 +509,16 @@ public class GetWeatherTest {
 		assertThat(jp.get("WindDirectionDegree"),containsString("Degree"));
 	}
 
-
+	@Test
+	public void testWindSpeed() {
+		RestAssured.baseURI = "http://restapi.demoqa.com/utilities/weather/city";
+		RequestSpecification httpRequest = RestAssured.given();
+		Response response = httpRequest.get("/San Francisco");
+		ResponseBody body = response.getBody();
+		float windSpeed = Float.parseFloat(body.jsonPath().get("WindSpeed").toString().substring(0, 3));
+		//System.out.println("windSpeed:|" + windSpeed + "|");
+		Assert.assertTrue(windSpeed > 0 && windSpeed < 100, "Out of wind speed range");
+	}
 
 
 
